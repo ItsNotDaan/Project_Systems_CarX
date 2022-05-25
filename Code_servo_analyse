@@ -1,31 +1,74 @@
-// Include the library
+/*
+  Name: 
+  Date: 
+  Author: Daan Heetkamp
+  
+  Description:
+  
+  Revision: 
+ 
+*/
 #include <Servo.h>
+#include <Arduino.h>
 
-// Create the servo object
 Servo myservo;
 
-// Setup section to run once
-void setup() {
-  myservo.attach(9); // attach the servo to our servo object
 
-  myservo.write(90); 
+//MOTOR 1
+#define MOTOR_A1_PIN  50 //7
+#define MOTOR_B1_PIN 48 //8
+
+#define PWM_MOTOR_1  44 //5
+
+#define EN_PIN_1 A15 //A0
+
+//#define MOTOR_A1_PIN  //7
+//#define MOTOR_B1_PIN //8
+
+//#define PWM_MOTOR_1  //5
+
+//#define EN_PIN_1 //A0
+
+
+ 
+void setup() 
+{   
+  Serial.begin(9600);              // Initiates the serial to do the monitoring 
+  
+  pinMode(MOTOR_A1_PIN, OUTPUT);
+  pinMode(MOTOR_B1_PIN, OUTPUT);
+
+  pinMode(PWM_MOTOR_1, OUTPUT);
+
+  pinMode(EN_PIN_1, OUTPUT);
+
+  myservo.attach(10);
+
+  digitalWrite(EN_PIN_1, HIGH);
+  digitalWrite(MOTOR_A1_PIN, LOW); 
+  digitalWrite(MOTOR_B1_PIN, HIGH);
+
 }
 
-// Loop to keep the motor turning!
-void loop() {
-  myservo.write(45); // rotate the motor counterclockwise
-
-  delay(2000); // keep rotating for 5 seconds (5000 milliseconds)
-
-  myservo.write(90); // stop the motor
-
-  delay(2000); // stay stopped*/
+// Main loop
+void loop() 
+{
   
-  myservo.write(120); // rotate the motor counterclockwise
+    analogWrite(PWM_MOTOR_1, 60); 
+   
 
-  delay(2000); // keep rotating for 5 seconds (5000 milliseconds)
+    sturen(90);
+    delay(1000);
+    sturen(180);
+    delay(1000);
+    sturen(135);
+    delay(1000);
 
-  myservo.write(90); // stop the motor
 
-  delay(2000); // stay stopped*/
+}
+
+void sturen(int graden)
+{
+  if(myservo.attached()) myservo.write(graden);
+  else Serial.println("is hier");
 }
